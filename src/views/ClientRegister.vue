@@ -44,7 +44,7 @@
               Registrarse
             </h2>
             <!-- BEGIN: Wizard Layout -->
-            <div class="intro-y box py-3 custom-wizard">
+            <div class="box py-3 custom-wizard">
               <div
                 class="wizard flex flex-col lg:flex-row justify-center px-5 sm:px-10"
               >
@@ -95,10 +95,10 @@
                 class="px-5 sm:px-20 mt-10 pt-3 border-t border-gray-200 dark:border-dark-5"
               >
                 <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                  <div class="intro-y col-span-12">
+                  <div class="col-span-12">
                     <strong class="text-lg">Datos Personales</strong>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>E-mail:</div>
                     <input
                       v-model="form.mail"
@@ -115,7 +115,7 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Nombres y Apellidos:</div>
                     <input
                       v-model="form.names"
@@ -134,13 +134,23 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Nacimiento:</div>
-                    <input
+                    <LitePicker
                       v-model="form.birthdate"
-                      type="text"
-                      class="input w-full border flex-1"
-                      :class="{ 'border-red-500': $v.form.birthdate.$error }"
+                      :options="{
+                        autoApply: false,
+                        lang: 'es-ES',
+                        showWeekNumbers: true,
+                        /* minDate: new Date(), */
+                        dropdowns: {
+                          minYear: 1990,
+                          maxYear: null,
+                          months: true,
+                          years: true
+                        }
+                      }"
+                      class="input w-full border block mr-auto"
                     />
                     <template v-if="$v.form.birthdate.$error">
                       <div
@@ -151,7 +161,7 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Telefono:</div>
                     <input
                       v-model="form.phone"
@@ -168,27 +178,24 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
-                    <div>Genero:</div>
-                    <input
-                      v-model="form.gender"
-                      type="text"
-                      class="input w-full border flex-1"
-                      :class="{
-                        'border-red-500': $v.form.gender.$error
-                      }"
-                    />
-                    <template v-if="$v.form.gender.$error">
-                      <div
-                        v-if="!$v.form.gender.required"
-                        class="font-medium text-xs text-red-500 mt-1 ml-1"
+                  <div class="col-span-12 sm:col-span-6">
+                    <label>Genero</label>
+                    <div>
+                      <TailSelect
+                        v-model="form.gender"
+                        :options="{
+                          search: true,
+                          classNames: 'w-full'
+                        }"
                       >
-                        Digite el genero
-                      </div>
-                    </template>
+                        <option value="null">Seleccione</option>
+                        <option value="1">Masculino</option>
+                        <option value="2">Femenino</option>
+                      </TailSelect>
+                    </div>
                   </div>
                   <div
-                    class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5"
+                    class="col-span-12 flex items-center justify-center sm:justify-end mt-5"
                   >
                     <button
                       v-if="option != 1"
@@ -215,12 +222,61 @@
               >
                 <div>
                   <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                    <div class="intro-y col-span-12">
+                    <div class="col-span-12">
                       <strong class="text-lg">Domicilio</strong>
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                      <label>País:</label>
+                      <div class="mt-2">
+                        <TailSelect
+                          id="ts_pais"
+                          v-model="form.country"
+                          :options="{
+                            search: true,
+                            classNames: 'w-full'
+                          }"
+                        >
+                          <option value="null">Seleccione</option>
+                          <option value="1">Colombia</option>
+                          <option value="2">Peru</option>
+                        </TailSelect>
+                      </div>
+                    </div>
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                      <label>Departamento:</label>
+                      <div class="mt-2">
+                        <TailSelect
+                          id="ts_dep"
+                          v-model="form.department"
+                          :options="{
+                            search: true,
+                            classNames: 'w-full'
+                          }"
+                        >
+                          <option value="null">Seleccione</option>
+                          <option value="1">Santander</option>
+                          <option value="2">Cundinamarca</option>
+                        </TailSelect>
+                      </div>
+                    </div>
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                      <label>Ciudad:</label>
+                      <div class="mt-2">
+                        <TailSelect
+                          id="ts_dep"
+                          v-model="form.department"
+                          :options="{
+                            search: true,
+                            classNames: 'w-full'
+                          }"
+                        >
+                          <option value="null">Seleccione</option>
+                          <option value="1">Santander</option>
+                          <option value="2">Cundinamarca</option>
+                        </TailSelect>
+                      </div>
+                    </div>
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Dirección:</div>
                       <input
                         v-model="form.direction"
@@ -228,40 +284,10 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">País:</div>
-                      <input
-                        v-model="form.country"
-                        type="text"
-                        class="input w-full border flex-1"
-                      />
-                    </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">Departamento</div>
-                      <input
-                        v-model="form.department"
-                        type="text"
-                        class="input w-full border flex-1"
-                      />
-                    </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">Ciudad:</div>
-                      <input
-                        v-model="form.city"
-                        type="text"
-                        class="input w-full border flex-1"
-                      />
-                    </div>
                   </div>
                 </div>
                 <div
-                  class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-8"
+                  class="col-span-12 flex items-center justify-center sm:justify-end mt-8"
                 >
                   <button
                     v-if="option != 1"
@@ -287,44 +313,37 @@
               >
                 <div>
                   <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                    <div class="intro-y col-span-12">
+                    <div class="col-span-12">
                       <strong class="text-lg">Experiencia</strong>
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">Empresa:</div>
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                      <label>Empresa:</label>
                       <input
+                        id="empresa"
                         v-model="form.company"
                         type="text"
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">Cargo:</div>
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
+                      <label>Cargo:</label>
                       <input
                         v-model="form.position"
                         type="text"
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div class="intro-y col-span-12">
-                      <div class="mb-2">Actividades:</div>
-                      <div class="news__input relative">
-                        <textarea
-                          v-model="form.activities"
-                          class="input w-full bg-gray-200 py-2 placeholder-theme-13 resize-none"
-                          rows="3"
-                          placeholder="Digite las actividades"
-                        ></textarea>
-                      </div>
+                    <div class="col-span-12">
+                      <label>Actividades:</label>
+                      <textarea
+                        v-model="form.activities"
+                        class="input w-full bg-gray-200 py-2 placeholder-theme-13 resize-none"
+                        rows="3"
+                        placeholder="Digite las actividades"
+                      ></textarea>
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
-                      <div class="mb-2">Tiempo de experiencia:</div>
+                    <div class="col-span-12 sm:col-span-6">
+                      <label>Tiempo de experiencia:</label>
                       <input
                         v-model="form.experience"
                         type="text"
@@ -334,7 +353,7 @@
                   </div>
                 </div>
                 <div
-                  class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-8"
+                  class="col-span-12 flex items-center justify-center sm:justify-end mt-8"
                 >
                   <button
                     v-if="option != 1"
@@ -360,12 +379,10 @@
               >
                 <div>
                   <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                    <div class="intro-y col-span-12">
+                    <div class="col-span-12">
                       <strong class="text-lg">Educación</strong>
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Educación superior:</div>
                       <input
                         v-model="form.education"
@@ -373,9 +390,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Otros cursos:</div>
                       <input
                         v-model="form.other"
@@ -383,9 +398,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Registro de experiencia:</div>
                       <input
                         v-model="form.expirence"
@@ -393,9 +406,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Empresa o independiente:</div>
                       <input
                         v-model="form.labor_type"
@@ -403,9 +414,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Cargo o labor:</div>
                       <input
                         v-model="form.position"
@@ -413,9 +422,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Actividades a realizar:</div>
                       <input
                         v-model="form.activity"
@@ -423,9 +430,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Valor hora:</div>
                       <input
                         v-model="form.hour_valor"
@@ -433,9 +438,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Perfil profesional:</div>
                       <input
                         v-model="form.profile"
@@ -443,9 +446,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
-                    >
+                    <div class="col-span-12 sm:col-span-6 md:col-span-3">
                       <div class="mb-2">Logros alcanzados:</div>
                       <input
                         v-model="form.logros"
@@ -456,7 +457,7 @@
                   </div>
                 </div>
                 <div
-                  class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-8"
+                  class="col-span-12 flex items-center justify-center sm:justify-end mt-8"
                 >
                   <button
                     v-if="option != 1"
@@ -482,10 +483,10 @@
               >
                 <div>
                   <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                    <div class="intro-y col-span-12">
+                    <div class="col-span-12">
                       <strong class="text-lg">Datos de Acceso</strong>
                     </div>
-                    <div class="intro-y col-span-12 sm:col-span-6">
+                    <div class="col-span-12 sm:col-span-6">
                       <div class="mb-2">Usuario:</div>
                       <input
                         v-model="form.username"
@@ -493,7 +494,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div class="intro-y col-span-12 sm:col-span-6">
+                    <div class="col-span-12 sm:col-span-6">
                       <div class="mb-2">Contraseña:</div>
                       <input
                         v-model="form.password"
@@ -501,7 +502,7 @@
                         class="input w-full border flex-1"
                       />
                     </div>
-                    <div class="intro-y col-span-12">
+                    <div class="col-span-12">
                       <input
                         id="vertical-remember-me"
                         type="checkbox"
@@ -516,7 +517,7 @@
                     </div>
                   </div>
                   <div
-                    class="intro-y col-span-12 flex items-center justify-center sm:justify-start mt-8"
+                    class="col-span-12 flex items-center justify-center sm:justify-start mt-8"
                   >
                     <button
                       class="button md:w-auto w-full justify-center block bg-theme-3 text-white"
@@ -526,7 +527,7 @@
                   </div>
                 </div>
                 <div
-                  class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-8"
+                  class="col-span-12 flex items-center justify-center sm:justify-end mt-8"
                 >
                   <button
                     v-if="option != 1"
@@ -573,8 +574,8 @@ export default {
       form: {
         mail: null,
         names: null,
-        birthdate: null,
-        gender: null,
+        birthdate: "",
+        gender: "null",
         phone: null,
         education: null,
         other: null,
@@ -591,9 +592,9 @@ export default {
         days: null,
         horary: [],
         direction: null,
-        country: null,
-        department: null,
-        city: null,
+        country: "null",
+        department: "null",
+        city: "null",
         company: null,
         activities: null,
         experience: null

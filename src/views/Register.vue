@@ -81,11 +81,11 @@
                 class="px-5 sm:px-20 mt-10 pt-3 border-t border-gray-200 dark:border-dark-5"
               >
                 <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>E-mail:</div>
                     <input
                       v-model="form.mail"
-                      type="text"
+                      type="email"
                       class="input w-full border flex-1"
                       :class="{ 'border-red-500': $v.form.mail.$error }"
                     />
@@ -98,7 +98,7 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Nombres y Apellidos:</div>
                     <input
                       v-model="form.names"
@@ -117,13 +117,23 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Nacimiento:</div>
-                    <input
+                    <LitePicker
                       v-model="form.birthdate"
-                      type="text"
-                      class="input w-full border flex-1"
-                      :class="{ 'border-red-500': $v.form.birthdate.$error }"
+                      :options="{
+                        autoApply: false,
+                        lang: 'es-ES',
+                        showWeekNumbers: true,
+                        /* minDate: new Date(), */
+                        dropdowns: {
+                          minYear: 1990,
+                          maxYear: null,
+                          months: true,
+                          years: true
+                        }
+                      }"
+                      class="input w-full border block mr-auto"
                     />
                     <template v-if="$v.form.birthdate.$error">
                       <div
@@ -134,7 +144,7 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
+                  <div class="col-span-12 sm:col-span-6">
                     <div>Telefono:</div>
                     <input
                       v-model="form.phone"
@@ -151,27 +161,24 @@
                       </div>
                     </template>
                   </div>
-                  <div class="intro-y col-span-12 sm:col-span-6">
-                    <div>Genero:</div>
-                    <input
-                      v-model="form.gender"
-                      type="text"
-                      class="input w-full border flex-1"
-                      :class="{
-                        'border-red-500': $v.form.gender.$error
-                      }"
-                    />
-                    <template v-if="$v.form.gender.$error">
-                      <div
-                        v-if="!$v.form.gender.required"
-                        class="font-medium text-xs text-red-500 mt-1 ml-1"
+                  <div class="col-span-12 sm:col-span-6">
+                    <label>Genero</label>
+                    <div>
+                      <TailSelect
+                        v-model="form.gender"
+                        :options="{
+                          search: true,
+                          classNames: 'w-full'
+                        }"
                       >
-                        Digite el genero
-                      </div>
-                    </template>
+                        <option value="null">Seleccione</option>
+                        <option value="1">Masculino</option>
+                        <option value="2">Femenino</option>
+                      </TailSelect>
+                    </div>
                   </div>
                   <div
-                    class="intro-y col-span-12 flex items-center justify-center sm:justify-end mt-5"
+                    class="col-span-12 flex items-center justify-center sm:justify-end mt-5"
                   >
                     <button
                       v-if="option != 1"
@@ -197,17 +204,158 @@
                 class="px-5 sm:px-20 mt-10 pt-3 border-t border-gray-200 dark:border-dark-5"
               >
                 <div>
-                  <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
-                    <div
-                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
+                  <div class="mb-4">
+                    <div class="mb-2">Educación:</div>
+                    <a
+                      href="javascript:;"
+                      class="intro-y h-10 button mx-2 bg-green-200 text-green-600"
+                      data-toggle="modal"
+                      data-target="#modal-estudio"
                     >
-                      <div class="mb-2">Educación superior:</div>
-                      <input
-                        v-model="form.education"
-                        type="text"
-                        class="input w-full border flex-1"
-                      />
+                      Agregar
+                    </a>
+                  </div>
+                  <div>
+                    <div class="overflow-x-auto">
+                      <table class="table mb-5">
+                        <thead>
+                          <tr class="bg-gray-200 text-gray-700">
+                            <th
+                              class="border-b-2 dark:border-dark-5 whitespace-no-wrap"
+                            >
+                              #
+                            </th>
+                            <th
+                              class="border-b-2 dark:border-dark-5 whitespace-no-wrap"
+                            >
+                              Institucion
+                            </th>
+                            <th
+                              class="border-b-2 dark:border-dark-5 whitespace-no-wrap"
+                            >
+                              Programa
+                            </th>
+                            <th
+                              class="border-b-2 dark:border-dark-5 whitespace-no-wrap"
+                            >
+                              Semestres
+                            </th>
+                            <th
+                              class="border-b-2 dark:border-dark-5 whitespace-no-wrap"
+                            >
+                              Fecha Terminación
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="border-b dark:border-dark-5">1</td>
+                            <td class="border-b dark:border-dark-5">
+                              Universidad UNO
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              Ingenieria UNO
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              10
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              30-03-2012
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
+                    <div id="modal-estudio" class="modal">
+                      <div class="modal__content ">
+                        <div
+                          class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5"
+                        >
+                          <h2 class="font-medium text-base mr-auto">
+                            Agregar Estudio
+                          </h2>
+                        </div>
+                        <div class="p-5 grid grid-cols-12 gap-4 row-gap-5">
+                          <div class="col-span-12">
+                            <label>Institución</label>
+                            <div>
+                              <TailSelect
+                                v-model="form.university"
+                                :options="{
+                                  search: true,
+                                  classNames: 'w-full'
+                                }"
+                              >
+                                <option value="null">Seleccione</option>
+                                <option value="1">Universidad UNO</option>
+                                <option value="2">Universidad DOS</option>
+                              </TailSelect>
+                            </div>
+                          </div>
+                          <div class="col-span-12">
+                            <label>Programa</label>
+                            <div>
+                              <TailSelect
+                                v-model="form.program"
+                                :options="{
+                                  search: true,
+                                  classNames: 'w-full'
+                                }"
+                              >
+                                <option value="null">Seleccione</option>
+                                <option value="1">Ingenieria UNO</option>
+                                <option value="2">Ingenieria DOS</option>
+                              </TailSelect>
+                            </div>
+                          </div>
+                          <div class="col-span-12 sm:col-span-6">
+                            <div>Semestres:</div>
+                            <input
+                              v-model="form.quantity"
+                              type="number"
+                              class="input w-full border flex-1"
+                            />
+                          </div>
+                          <div class="col-span-12 sm:col-span-6">
+                            <div>Fecha de Terminación:</div>
+                            <LitePicker
+                              v-model="form.finallyStudy"
+                              :options="{
+                                autoApply: false,
+                                lang: 'es-ES',
+                                showWeekNumbers: true,
+                                /* minDate: new Date(), */
+                                dropdowns: {
+                                  minYear: 1990,
+                                  maxYear: null,
+                                  months: true,
+                                  years: true
+                                }
+                              }"
+                              class="input w-full border block mr-auto"
+                            />
+                          </div>
+                          <div
+                            class="col-span-12 flex items-center justify-center sm:justify-end mt-5"
+                          >
+                            <button
+                              class="button w-24 justify-center block bg-gray-200 text-gray-600 dark:bg-dark-1 dark:text-gray-300"
+                              @click="hideModal()"
+                            >
+                              Cancelar
+                            </button>
+                            <button
+                              class="button w-24 justify-center block bg-theme-1 text-white ml-2"
+                              @click="hideModal()"
+                            >
+                              Guardar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-12 gap-4 row-gap-5 mt-5">
                     <div
                       class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
                     >
@@ -362,6 +510,24 @@
                     <div
                       class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
                     >
+                      <div class="mb-2">Confirmar Contraseña:</div>
+                      <input
+                        v-model="form.confirmPassword"
+                        type="password"
+                        class="input w-full border flex-1"
+                      />
+                      <!-- <template v-if="$v.form.confirmPassword.$error">
+                        <div
+                          v-if="!$v.form.confirmPassword.required"
+                          class="font-medium text-xs text-red-500 mt-1 ml-1"
+                        >
+                          Digite la Confirmacón de la Contraseña
+                        </div>
+                      </template> -->
+                    </div>
+                    <div
+                      class="intro-y col-span-12 sm:col-span-6 md:col-span-3"
+                    >
                       <div class="mb-2">Días a laborar:</div>
                       <input
                         v-model="form.days"
@@ -400,6 +566,19 @@
                           Digite el Horario
                         </div>
                       </template>
+                    </div>
+                    <div class="col-span-12">
+                      <input
+                        id="vertical-remember-me"
+                        type="checkbox"
+                        class="input border mr-2"
+                      />
+                      <label
+                        class="cursor-pointer select-none"
+                        for="vertical-remember-me"
+                        >Acepto términos y condiciones de uso del sitio web y la
+                        política de privacidad
+                      </label>
                     </div>
                   </div>
                   <div
@@ -460,8 +639,8 @@ export default {
       form: {
         mail: null,
         names: null,
-        birthdate: null,
-        gender: null,
+        birthdate: "",
+        gender: "null",
         phone: null,
         education: null,
         other: null,
@@ -476,7 +655,11 @@ export default {
         password: null,
         terms: null,
         days: null,
-        horary: []
+        horary: [],
+        university: "null",
+        Program: "null",
+        finallyStudy: "",
+        quantity: 0
       },
       sending: false
     };
@@ -529,6 +712,9 @@ export default {
     }
   },
   methods: {
+    hideModal() {
+      cash("#modal-estudio").modal("hide");
+    },
     changeOption(option) {
       /* this.$v.$touch();
       if (this.$v.$invalid) {
