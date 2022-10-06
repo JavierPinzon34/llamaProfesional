@@ -21,11 +21,25 @@
       <h3>JUAN PABLO CARDENAS</h3>
       <h3>EXPERIENCIA 43 MESES</h3>
       <h3>SERVICIOS REALIZADOS 23</h3>
+      <h3>Celular: xxxxxxx</h3>
       <h3>Horario</h3>
+    </div>
+    <div class="news__input relative mt-5 mb-5">
+      <textarea
+        disabled="true"
+        class="input w-full bg-gray-200 py-2 placeholder-theme-13 resize-none text-center"
+        rows="1"
+        placeholder="VALOR DE LA HORA: $10.000"
+      ></textarea>
     </div>
     <div class="text-center mt-8">
       <button class="button w-full mr-1 mb-2 bg-theme-1 text-white">
-        Calificar
+        Finalizar Solicitud
+      </button>
+    </div>
+    <div class="text-center mt-8">
+      <button class="button w-full mr-1 mb-2 bg-theme-1 text-white">
+        Cancelar Solicitud
       </button>
     </div>
   </div>

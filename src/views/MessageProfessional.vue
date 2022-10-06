@@ -30,17 +30,17 @@
         placeholder="Describa la necesidad"
       ></textarea>
     </div>
-    <div class="text-center">
-      <button class="button w-full mr-1 mb-2 bg-theme-1 text-white">
-        Solicitar Servicio
-      </button>
-    </div>
     <div class="news__input relative mt-5 mb-5">
       <textarea
         class="input w-full bg-gray-200 py-2 placeholder-theme-13 resize-none"
         rows="7"
-        placeholder="Comentario"
+        placeholder="Observaciones y generalidades para el servicio"
       ></textarea>
+    </div>
+    <div class="text-center">
+      <button class="button w-full mr-1 mb-2 bg-theme-1 text-white">
+        Solicitar Servicio
+      </button>
     </div>
   </div>
 </template>

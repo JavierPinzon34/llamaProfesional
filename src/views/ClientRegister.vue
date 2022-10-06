@@ -501,6 +501,12 @@
                         type="password"
                         class="input w-full border flex-1"
                       />
+                      <div class="mb-2">Repetir Contraseña:</div>
+                      <input
+                        v-model="form.password"
+                        type="password"
+                        class="input w-full border flex-1"
+                      />
                     </div>
                     <div class="col-span-12">
                       <input
